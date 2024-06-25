@@ -46,7 +46,7 @@ La API está documentada utilizando OpenAPI 3.0.1. Puedes encontrar la especific
 
 ### Ejemplos de Respuestas
 
-#### GET /api/products
+#### `GET` /api/products
 
 ```json
 [
@@ -66,10 +66,28 @@ La API está documentada utilizando OpenAPI 3.0.1. Puedes encontrar la especific
   }
 ]
 ```
-#### POST /api/products
+#### `POST` /api/products
 ```json
 {
   "message": "Product created successfully"
+}
+```
+#### `PUT` /api/products/{id}
+```json
+{
+  "message": "Product updated successfully"
+}
+```
+#### `PATCH` /api/products/{id}
+```json
+{
+  "message": "Product availability updated successfully"
+}
+```
+#### `DELETE` /api/products/{id}
+```json
+{
+  "message": "Product deleted successfully"
 }
 ```
 #### Errores comunes
@@ -88,4 +106,4 @@ Puedes acceder a la documentación de la API utilizando Swagger UI:
 Si deseas contribuir a este proyecto, por favor abre un issue o envía un pull request.
 
 ## Licencia
-Este proyecto está licenciado bajo la Licencia Apache 2.0 - ver el archivo LICENSE para más detalles.
+Este proyecto está licenciado bajo la Licencia Apache 2.0.
