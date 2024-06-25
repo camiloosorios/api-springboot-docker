@@ -1,0 +1,221 @@
+openapi: 3.0.1
+info:
+  title: REST API Spring Boot / Docker / React
+  description: API Docs for Products
+  version: v0.0.1
+  license:
+    name: Apache 2.0
+    url: http://springdoc.org
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: Products
+    description: Operaciones relacionadas con productos
+paths:
+  /api/products:
+    get:
+      tags:
+        - Productos
+      summary: Obtiene una lista de productos
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+              examples:
+                example-1:
+                  summary: Lista de productos de ejemplo
+                  value:
+                    - id: 1
+                      name: "Producto 1"
+                      description: "Descripción del producto 1"
+                      price: 100.0
+                      available: true
+                    - id: 2
+                      name: "Producto 2"
+                      description: "Descripción del producto 2"
+                      price: 150.0
+                      available: false
+    post:
+      tags:
+        - Products
+      summary: Crea un nuevo producto
+      requestBody:
+        description: Datos del producto a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+      responses:
+        '201':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Respuesta de creación exitosa
+                  value: "Product created successfully"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Obtiene un producto por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+              examples:
+                example-1:
+                  summary: Producto de ejemplo
+                  value:
+                    id: 1
+                    name: "Producto 1"
+                    description: "Descripción del producto 1"
+                    price: 100.0
+                    available: true
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+        - Products
+      summary: Actualiza un producto existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Datos del producto a actualizar
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Respuesta de actualización exitosa
+                  value: "Product updated successfully"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags:
+        - Products
+      summary: Actualiza la disponibilidad de un producto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Disponibilidad del producto actualizada exitosamente
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Respuesta de actualización de disponibilidad exitosa
+                  value: "Product availability updated successfully"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Products
+      summary: Elimina un producto por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto eliminado exitosamente
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Respuesta de eliminación exitosa
+                  value: "Product deleted successfully"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    ProductDto:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+        available:
+          type: boolean
+  responses:
+    BadRequest:
+      description: Solicitud incorrecta
+      content:
+        application/json:
+          examples:
+            example-1:
+              summary: Error en la solicitud
+              value:
+                error: "Bad Request"
+    NotFound:
+      description: Producto no encontrado
+      content:
+        application/json:
+          examples:
+            example-1:
+              summary: Producto no encontrado
+              value:
+                error: "Product not found"
+    InternalServerError:
+      description: Error interno del servidor
+      content:
+        application/json:
+          examples:
+            example-1:
+              summary: Error del servidor
+              value:
+                error: "Internal Server Error"

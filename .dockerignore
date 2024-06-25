@@ -1,0 +1,30 @@
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar el directorio de Git
+.git
+.gitignore
+
+# Ignorar archivos de configuración de IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.class
+
+# Ignorar archivos de logs
+*.log
+
+# Ignorar archivos temporales
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignorar archivos de Docker Compose y Dockerfiles secundarios si existen
+Docker-compose.prod.yml
+Docker-compose.dev.yml
+docker-compose.override.yml
+Dockerfile.*

@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: SpringBootApp
+    image: openjdk:17-jdk-alpine
+    ports:
+      - 8080:8080
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=postgresDB
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=123456
+      - SERVER_PORT=8080
+      - CORS_ORIGIN=http://localhost:5173
+    volumes:
+      - ./target:/app
+    depends_on:
+      - db
+    command: ["java", "-jar", "/app/Api-0.0.1-SNAPSHOT.jar"]
+
+  db:
+    container_name: Postgres
+    image: postgres:15-alpine
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: postgresDB
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres:
+    external: false
