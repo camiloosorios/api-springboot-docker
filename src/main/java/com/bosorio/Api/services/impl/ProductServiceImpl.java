@@ -42,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             productRepository.save(product);
+
         } catch (RuntimeException e) {
             throw new InternalServerErrorException(e.getMessage());
         }
