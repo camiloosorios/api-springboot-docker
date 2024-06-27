@@ -50,29 +50,31 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Test create product without name throw bad request exception")
-    void invalidProductNameThrowsBadRequestException() {
+    void testInvalidProductNameThrowsBadRequestException() {
         ProductDto productDto = ProductDto.builder()
                 .name("")
                 .price(BigDecimal.valueOf(100))
                 .build();
 
         assertThrows(BadRequestException.class, () -> productService.create(productDto));
+        verify(productRepository, times(0)).save(any(Product.class));
     }
 
     @Test
     @DisplayName("Test create product without name throw bad request exception")
-    void invalidProductPriceThrowsBadRequestException() {
+    void testInvalidProductPriceThrowsBadRequestException() {
         ProductDto productDto = ProductDto.builder()
                 .name("Test Product")
                 .price(BigDecimal.valueOf(0))
                 .build();
 
         assertThrows(BadRequestException.class, () -> productService.create(productDto));
+        verify(productRepository, times(0)).save(any(Product.class));
     }
 
     @Test
     @DisplayName("Test get all products")
-    void getAllReturnsListOfProducts() {
+    void testGetAllReturnsListOfProducts() {
         when(productRepository.findAll()).thenReturn(Arrays.asList(new Product(), new Product()));
 
         assertEquals(2, productService.getAll().size());
@@ -80,7 +82,7 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Test get product by id")
-    void getProductByIdReturnsProduct() {
+    void testGetProductByIdReturnsProduct() {
         Product product = Product.builder()
                 .id(1L)
                 .name("Test Product")
@@ -95,7 +97,7 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Test get product does not exist throws not found exception")
-    void getProductByIdDoesNotExistThrowsNotFoundException() {
+    void testGetProductByIdDoesNotExistThrowsNotFoundException() {
         when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> productService.getById(1L));
@@ -122,7 +124,7 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Test update product with invalid name throws bad request exception")
-    void UpdateWithInvalidNameThrowsBadRequestException() {
+    void testUpdateWithInvalidNameThrowsBadRequestException() {
         Product product = Product.builder()
                 .id(1L)
                 .name("Test Product")
@@ -135,13 +137,13 @@ class ProductServiceImplTest {
                 .price(BigDecimal.valueOf(1500))
                 .build();
 
-        verify(productRepository, times(0)).save(any(Product.class));
         assertThrows(BadRequestException.class, () -> productService.update(updatedProduct, 1L));
+        verify(productRepository, times(0)).save(any(Product.class));
     }
 
     @Test
     @DisplayName("Test update product with invalid price throws bad request exception")
-    void UpdateWithInvalidPriceThrowsBadRequestException() {
+    void testUpdateWithInvalidPriceThrowsBadRequestException() {
         Product product = Product.builder()
                 .id(1L)
                 .name("Test Product")
@@ -151,11 +153,11 @@ class ProductServiceImplTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         ProductDto updatedProduct = ProductDto.builder()
                 .name("Test Product Updated")
-                .price(BigDecimal.valueOf(1500))
+                .price(BigDecimal.valueOf(0))
                 .build();
 
+        assertThrows(BadRequestException.class, () -> productService.update(updatedProduct, 1L));
         verify(productRepository, times(0)).save(any(Product.class));
-        assertDoesNotThrow(() -> productService.update(updatedProduct, 1L));
     }
 
     @Test
@@ -176,7 +178,7 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Test delete project successfully")
-    void deleteProductSuccessfully() {
+    void testDeleteProductSuccessfully() {
         Product product = Product.builder().id(1L).build();
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
@@ -187,10 +189,10 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Test delete project does not exist throws not found exception")
-    void delete_ProductDoesNotExist_ThrowsNotFoundException() {
+    void testDeleteProductDoesNotExistThrowsNotFoundException() {
         when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
-        verify(productRepository, times(0)).delete(any(Product.class));
         assertThrows(NotFoundException.class, () -> productService.delete(1L));
+        verify(productRepository, times(0)).delete(any(Product.class));
     }
 }
