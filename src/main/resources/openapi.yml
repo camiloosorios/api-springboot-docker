@@ -15,7 +15,7 @@ paths:
   /api/products:
     get:
       tags:
-        - Productos
+        - Products
       summary: Obtiene una lista de productos
       responses:
         '200':
