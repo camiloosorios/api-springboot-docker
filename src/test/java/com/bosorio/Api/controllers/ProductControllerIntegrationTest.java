@@ -4,7 +4,6 @@ import com.bosorio.Api.dto.ProductDto;
 import com.bosorio.Api.repositories.ProductRepository;
 import com.bosorio.Api.services.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
